@@ -8,10 +8,10 @@
 
 ## React setup
 - Go to the folder photo-app
-- install the package dependencies. For Package installtion type `npm install`
+- install the package dependencies. For Package installation type `npm install`
 - After installation run `npm start`. 
 - The above commmand will start running the react app `http://localhost:3000/`
-- please open the above react and you can browse the photos with the react app
+- please open the above react url and you can browse the photos with the react app
 
 ## guide
 - Below down is the home Page
