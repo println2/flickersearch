@@ -12,3 +12,5 @@
 - After installation run `npm start`. 
 - The above commmand will start running the react app `http://localhost:3000/`
 - please open the above react and you can browse the photos with the react app
+
+![image](https://user-images.githubusercontent.com/11938531/117744286-03f7b980-b226-11eb-872d-6775c8bd3595.png)
