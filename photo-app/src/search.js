@@ -16,6 +16,9 @@ class Search extends Component {
             show: false,
             data_points : [],
             cur_name :'',
+            favourites:false,
+            favpagenumber: 0,
+            scrol: false
         };
         this.renderImageContent = this.renderImageContent.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
@@ -37,13 +40,18 @@ class Search extends Component {
     componentDidMount() {
         window.onscroll = throttle(() => {
 			if (scrollAreaAvailable()) return;
-			this.handleScroll();
+            if(this.state.favourites === true){
+                this.setState({'scrol': true})
+                this.getFavourites();
+            }
+            else{
+                this.handleScroll();
+            }
 		}, 1000);
 
        this.get_lat_long()
     }
     get_photos(){
-        console.log("here",this.state.lat,this.state.log)
         const url = constants.BASE_URL + "photos?lat=" + (this.state.lat) + "&log=" + (this.state.log);
         fetch(url)
             .then(parseJSON)
@@ -137,7 +145,7 @@ class Search extends Component {
         })
         .then(parseJSON)
         .then(resp => {
-            if(resp.success == "success"){
+            if(resp.success === "success"){
                 event.target.classList.add("active");
             }
             else{
@@ -150,17 +158,20 @@ class Search extends Component {
     }
 
     getFavourites(){
-        const url = constants.BASE_URL + "favorites"
+        if(this.state.scrol === false ){
+            this.state.imgUrls = []
+            this.state.favpagenumber = 0
+        }
+        const url = constants.BASE_URL + "favorites?" + "page=" + (this.state.favpagenumber + 1);
         fetch(url,{})
         .then(parseJSON)
         .then(resp => {
-            let image_list = []
-            resp.forEach(photo => image_list.push(
+            resp.forEach(photo => this.state.imgUrls.push(
                 {url: `https://live.staticflickr.com//${photo.photo_server}//${photo.photo_id}_${photo.photo_secret}_b.jpg`,
                 photo_server: photo.photo_server,
                 photo_id: photo.photo_id,
                 photo_secret:photo.photo_secret }))
-            this.setState({imgUrls: image_list})
+            this.setState({imgUrls: this.state.imgUrls,favourites: true,favpagenumber: this.state.favpagenumber + 1})
         })
         .catch(err => {
             console.log(err);
@@ -180,13 +191,14 @@ class Search extends Component {
         this.setState({ log: event.target.value });
     };
     handleSearch = () => {
+        this.setState({favourites: false})
         this.get_photos()
     };
     render() {
         return (
             <div>
                 <h1>Welcome to the search app</h1>
-                <div className='rowC'>
+                <div className='rowC' >
                     <button onClick={this.showModal}>ADD</button>
                     <select value={this.state.cur_name} onChange={event => this.handleOnChangeselect(event)}>
                         {this.state.data_points.map(this.renderoption)}
@@ -247,7 +259,7 @@ class Search extends Component {
         })
         .then(parseJSON)
         .then(resp => {
-            if(resp.success == "success"){
+            if(resp.success === "success"){
                 this.props.lat_long()
                 this.props.handleClose()
                 this.setState({lat:'',log:'',name:''})

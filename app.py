@@ -82,6 +82,7 @@ def lat_long():
 
 @app.route("/favorites", methods = ['GET','POST'])
 def favorites():
+    ROWS_PER_PAGE = 12
     if request.method == 'POST':
         request_data = request.get_json()
         photo_id = request_data.get('photo_id')
@@ -96,4 +97,11 @@ def favorites():
             db.session.commit()
             return {"success":"success"}
     elif request.method == 'GET':
-        return jsonify([i.serialize for i in Favorites.query.all()])
+        page = request.args.get('page', 1, type=int)
+        count = Favorites.query.count()
+        if(page >= 2):
+            noofvalues = (page-1)*ROWS_PER_PAGE
+            if count < noofvalues:
+                return jsonify([])
+        data = Favorites.query.paginate(page=page, per_page=ROWS_PER_PAGE)
+        return jsonify([i.serialize for i in data.items])
