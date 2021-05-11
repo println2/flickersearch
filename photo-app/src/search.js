@@ -280,11 +280,11 @@ class Search extends Component {
             <div className={showHideClassName}>
               <section className="modal-main">
                   <Row>
-                    <Col><label>Latitude:<input name="lat" type="text" placeholder="Latitude" onChange={event => this.handleOnChangelat(event)} value={this.state.lat}/></label></Col>
-                    <Col><label>Longitude:<input name="log" type="text" placeholder="Longitude" onChange={event => this.handleOnChangelog(event)} value={this.state.log}/></label></Col>
-                    <Col><label>Name:<input name="name" type="text" placeholder="Name" onChange={event => this.handleOnChangename(event)} value={this.state.name}/></label></Col>
-                    <button type="button" onClick={this.submitClick}>Submit</button>
-                    <button type="button" onClick={handleClose}>Close</button>
+                    <label>Latitude:</label><input name="lat" className="label_left" type="text" placeholder="Latitude" onChange={event => this.handleOnChangelat(event)} value={this.state.lat}/>
+                    <label>Longitude:</label><input name="log" className="label_left" type="text" placeholder="Longitude" onChange={event => this.handleOnChangelog(event)} value={this.state.log}/>
+                    <label>Name:</label><input name="name" className="label_left" type="text" placeholder="Name" onChange={event => this.handleOnChangename(event)} value={this.state.name}/>
+                    <button type="button" className="label" onClick={this.submitClick}>Submit</button>
+                    <button type="button" className="label" onClick={handleClose}>Close</button>
                   </Row>
               </section>
             </div>
