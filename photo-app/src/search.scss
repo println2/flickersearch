@@ -112,6 +112,10 @@ button {
   }
 }
 
+.favourite {
+  pointer-events: none
+}
+
 .gallery-grid div.active {
   &:after {
     content: '\2605';

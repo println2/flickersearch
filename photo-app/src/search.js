@@ -122,8 +122,10 @@ class Search extends Component {
         ) 
     }
     renderImageContent(src, index) {
+        let favourites = this.state.favourites === true ? 'favourite': '';
+        console.log(favourites)
         return (
-          <div photo_id={src.photo_id} photo_server={src.photo_server} photo_secret={src.photo_secret} onClick={(e) => this.imageClick(e)}>
+          <div className={favourites} photo_id={src.photo_id} photo_server={src.photo_server} photo_secret={src.photo_secret} onClick={(e) => this.imageClick(e)}>
             <img src={src.url} key={src.photo_id} width="500" height="300" alt={src.photo_id}/>
           </div>
         ) 
